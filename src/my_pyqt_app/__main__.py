@@ -13,7 +13,7 @@ sys.path.insert(0, str(src_path))
 
 from PyQt6.QtWidgets import QApplication, QMainWindow
 from PyQt6.QtCore import QTimer
-from ui.ui_main_window import Ui_BilibiliRankWindow as MainWindow
+from views.main_window import MainWindow
 
 def setup_logging():
     """配置日志系统"""
@@ -39,16 +39,13 @@ def main():
         
         # 创建主窗口
         logger.info("启动B站问号榜应用")
-        # Ui_BilibiliRankWindow is a generated UI class; instantiate a QMainWindow and apply the UI to it.
-        window = QMainWindow()
-        ui = MainWindow()
-        ui.setupUi(window)
+        window = MainWindow()
         
         # 显示窗口
         window.show()
         
         # 延迟加载初始数据（避免界面卡顿）
-        QTimer.singleShot(100, getattr(ui, "load_initial_data", lambda: None))
+        QTimer.singleShot(100, window.load_initial_data)
         
         # 运行应用
         return_code = app.exec()

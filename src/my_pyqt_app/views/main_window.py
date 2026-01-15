@@ -1,8 +1,8 @@
-from PyQt6.QtWidgets import QMainWindow, QMessageBox, QTableWidgetItem, QHeaderView
+from PyQt6.QtWidgets import QMainWindow, QWidget, QMessageBox, QTableWidgetItem, QHeaderView
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QColor
 from ui.ui_main_window import Ui_BilibiliRankWindow as Ui_MainWindow
-from services.bilibili_api import BilibiliAPIManager
+# from services.bilibili_api import BilibiliAPIManager
 import logging
 
 class MainWindow(QMainWindow):
@@ -11,11 +11,15 @@ class MainWindow(QMainWindow):
         self.logger = logging.getLogger(__name__)
         self.current_rank_type = "daily"
         self.api_manager = None
-        
-        # 初始化UI
+        # 初始化UI（把生成的 QWidget 作为 central widget）
         self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
-        
+        self._central = QWidget()
+        self.setCentralWidget(self._central)
+        self.ui.setupUi(self._central)
+
+        # 可选：确保主窗口标题（UI 也会设置，但显式设置不会有坏处）
+        self.setWindowTitle("B站问号榜")
+
         # 设置初始状态
         self.setup_ui()
         self.setup_connections()
@@ -129,11 +133,11 @@ class MainWindow(QMainWindow):
         self.ui.tableWidget.setSpan(0, 0, 1, 7)
         
         # 启动API请求
-        self.api_manager = BilibiliAPIManager(self.current_rank_type)
-        self.api_manager.data_received.connect(self.display_rank_data)
-        self.api_manager.error_occurred.connect(self.handle_api_error)
-        self.api_manager.progress_updated.connect(self.ui.progressBar.setValue)
-        self.api_manager.start()
+        # self.api_manager = BilibiliAPIManager(self.current_rank_type)
+        # self.api_manager.data_received.connect(self.display_rank_data)
+        # self.api_manager.error_occurred.connect(self.handle_api_error)
+        # self.api_manager.progress_updated.connect(self.ui.progressBar.setValue)
+        # self.api_manager.start()
     
     def display_rank_data(self, data):
         """显示榜单数据"""
