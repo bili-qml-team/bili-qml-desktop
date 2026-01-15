@@ -8,7 +8,7 @@ import logging
 from pathlib import Path
 
 # 添加src目录到Python路径
-src_path = Path(__file__).parent / 'src'
+src_path = Path(__file__).parent.parent
 sys.path.insert(0, str(src_path))
 
 from PyQt6.QtWidgets import QApplication, QMainWindow

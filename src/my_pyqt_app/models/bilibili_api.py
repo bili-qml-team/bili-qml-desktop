@@ -12,9 +12,10 @@ class BilibiliAPIManager(QThread):
         super().__init__()
         self.rank_type = rank_type
         self.api_urls = {
-            "daily": "https://api.bilibili.com/x/web-interface/popular",
-            "weekly": "https://api.bilibili.com/x/web-interface/ranking/v2",
-            "monthly": "https://api.bilibili.com/x/web-interface/ranking/v2"
+            # "realtime": "https://bili-qml.bydfk.com/api/leaderboard?range=realtime&type=1",
+            "daily": "https://bili-qml.bydfk.com/api/leaderboard?range=daily&type=1",
+            "weekly": "https://bili-qml.bydfk.com/api/leaderboard?range=weekly&type=1",
+            "monthly": "https://bili-qml.bydfk.com/api/leaderboard?range=monthly&type=1"
         }
         
     def get_headers(self):
@@ -40,46 +41,86 @@ class BilibiliAPIManager(QThread):
         try:
             self.progress_updated.emit(10)
             
-            # 构建请求参数
-            params = {}
-            if self.rank_type in ["weekly", "monthly"]:
-                params = {'rid': 0, 'type': 'all'}
-            
-            self.progress_updated.emit(30)
-            
-            # 发送API请求
+            # 发送API请求到自定义后端
             response = requests.get(
                 self.api_urls[self.rank_type], 
-                params=params,
                 headers=self.get_headers(),
                 timeout=10
             )
             
-            self.progress_updated.emit(60)
+            self.progress_updated.emit(30)
             
             if response.status_code == 200:
                 data = response.json()
                 
-                if data.get('code') == 0:
-                    rank_list = data['data']['list']
+                if data.get('success'):
+                    rank_list = data['list']
                     processed_data = []
+                    total = len(rank_list)
                     
                     for i, item in enumerate(rank_list):
-                        rank_info = {
-                            'rank': i + 1,
-                            'title': item.get('title', '未知标题'),
-                            'up': item['owner']['name'],
-                            'play': self.format_number(item['stat']['view']),
-                            'danmaku': self.format_number(item['stat']['danmaku']),
-                            'like': self.format_number(item['stat']['like']),
-                            'duration': self.format_duration(item.get('duration', 0))
-                        }
+                        bvid = item['bvid']
+                        title = item.get('title', '未知标题')
+                        
+                        # 获取视频详情
+                        try:
+                            detail_response = requests.get(
+                                f"https://api.bilibili.com/x/web-interface/view?bvid={bvid}",
+                                headers=self.get_headers(),
+                                timeout=10
+                            )
+                            
+                            if detail_response.status_code == 200:
+                                detail_data = detail_response.json()
+                                if detail_data.get('code') == 0:
+                                    video_data = detail_data['data']
+                                    rank_info = {
+                                        'rank': i + 1,
+                                        'title': title,
+                                        'up': video_data['owner']['name'],
+                                        'play': self.format_number(video_data['stat']['view']),
+                                        'danmaku': self.format_number(video_data['stat']['danmaku']),
+                                        'like': self.format_number(video_data['stat']['like']),
+                                        'duration': self.format_duration(video_data.get('duration', 0))
+                                    }
+                                else:
+                                    rank_info = {
+                                        'rank': i + 1,
+                                        'title': title,
+                                        'up': '未知',
+                                        'play': '0',
+                                        'danmaku': '0',
+                                        'like': '0',
+                                        'duration': '未知'
+                                    }
+                            else:
+                                rank_info = {
+                                    'rank': i + 1,
+                                    'title': title,
+                                    'up': '未知',
+                                    'play': '0',
+                                    'danmaku': '0',
+                                    'like': '0',
+                                    'duration': '未知'
+                                }
+                        except Exception as e:
+                            rank_info = {
+                                'rank': i + 1,
+                                'title': title,
+                                'up': '未知',
+                                'play': '0',
+                                'danmaku': '0',
+                                'like': '0',
+                                'duration': '未知'
+                            }
+                        
                         processed_data.append(rank_info)
+                        self.progress_updated.emit(30 + int(60 * (i + 1) / total))
                     
                     self.progress_updated.emit(90)
                     self.data_received.emit(processed_data)
                 else:
-                    self.error_occurred.emit(f"API返回错误: {data.get('message', '未知错误')}")
+                    self.error_occurred.emit("API返回失败")
             else:
                 self.error_occurred.emit(f"HTTP错误: {response.status_code}")
                 

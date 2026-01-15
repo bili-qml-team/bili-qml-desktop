@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QMainWindow, QWidget, QMessageBox, QTableWidgetItem,
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QColor
 from ui.ui_main_window import Ui_BilibiliRankWindow as Ui_MainWindow
-# from services.bilibili_api import BilibiliAPIManager
+from models.bilibili_api import BilibiliAPIManager
 import logging
 
 class MainWindow(QMainWindow):
@@ -52,6 +52,7 @@ class MainWindow(QMainWindow):
         self.ui.dailyButton.clicked.connect(lambda: self.switch_rank("daily"))
         self.ui.weeklyButton.clicked.connect(lambda: self.switch_rank("weekly"))
         self.ui.monthlyButton.clicked.connect(lambda: self.switch_rank("monthly"))
+        # self.ui.realtimeButton.clicked.connect(lambda: self.switch_rank("realtime"))
         
         # 刷新按钮
         self.ui.refreshButton.clicked.connect(self.load_rank_data)
@@ -73,7 +74,7 @@ class MainWindow(QMainWindow):
         self.update_tab_style(rank_type)
         
         # 更新标题
-        rank_names = {"daily": "日榜", "weekly": "周榜", "monthly": "月榜"}
+        rank_names = {"daily": "日榜", "weekly": "周榜", "monthly": "月榜", "realtime": "实时榜"}
         self.ui.titleLabel.setText(f"B站{rank_names[rank_type]}问号榜")
         
         # 加载数据
@@ -84,7 +85,8 @@ class MainWindow(QMainWindow):
         tabs = {
             "daily": self.ui.dailyButton,
             "weekly": self.ui.weeklyButton,
-            "monthly": self.ui.monthlyButton
+            "monthly": self.ui.monthlyButton,
+            # "realtime": self.ui.realtimeButton
         }
         
         for tab_name, button in tabs.items():
@@ -133,11 +135,11 @@ class MainWindow(QMainWindow):
         self.ui.tableWidget.setSpan(0, 0, 1, 7)
         
         # 启动API请求
-        # self.api_manager = BilibiliAPIManager(self.current_rank_type)
-        # self.api_manager.data_received.connect(self.display_rank_data)
-        # self.api_manager.error_occurred.connect(self.handle_api_error)
-        # self.api_manager.progress_updated.connect(self.ui.progressBar.setValue)
-        # self.api_manager.start()
+        self.api_manager = BilibiliAPIManager(self.current_rank_type)
+        self.api_manager.data_received.connect(self.display_rank_data)
+        self.api_manager.error_occurred.connect(self.handle_api_error)
+        self.api_manager.progress_updated.connect(self.ui.progressBar.setValue)
+        self.api_manager.start()
     
     def display_rank_data(self, data):
         """显示榜单数据"""
