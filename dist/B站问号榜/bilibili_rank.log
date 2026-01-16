@@ -1,0 +1,16 @@
+2026-01-16 20:25:35,799 - __main__ - INFO - 启动B站问号榜应用
+2026-01-16 20:25:36,614 - my_pyqt_app.views.main_window - INFO - 开始加载daily榜数据
+2026-01-16 20:25:47,164 - my_pyqt_app.views.main_window - ERROR - API错误: 网络请求失败: HTTPSConnectionPool(host='bili-qml.bydfk.com', port=443): Read timed out. (read timeout=10)
+2026-01-16 20:25:52,051 - my_pyqt_app.views.main_window - INFO - 切换到weekly榜
+2026-01-16 20:25:52,051 - my_pyqt_app.views.main_window - INFO - 开始加载weekly榜数据
+2026-01-16 20:26:07,374 - my_pyqt_app.views.main_window - INFO - 成功加载30条数据
+2026-01-16 20:26:10,194 - my_pyqt_app.views.main_window - INFO - 切换到daily榜
+2026-01-16 20:26:10,194 - my_pyqt_app.views.main_window - INFO - 开始加载daily榜数据
+2026-01-16 20:26:25,287 - my_pyqt_app.views.main_window - INFO - 成功加载30条数据
+2026-01-16 20:26:29,108 - my_pyqt_app.views.main_window - INFO - 正在关闭应用...
+2026-01-16 20:26:29,123 - __main__ - INFO - 应用正常退出
+2026-01-16 20:26:30,872 - __main__ - INFO - 启动B站问号榜应用
+2026-01-16 20:26:31,686 - my_pyqt_app.views.main_window - INFO - 开始加载daily榜数据
+2026-01-16 20:26:46,901 - my_pyqt_app.views.main_window - INFO - 成功加载30条数据
+2026-01-16 20:26:49,278 - my_pyqt_app.views.main_window - INFO - 正在关闭应用...
+2026-01-16 20:26:49,278 - __main__ - INFO - 应用正常退出

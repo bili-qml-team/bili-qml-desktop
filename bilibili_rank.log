@@ -133,3 +133,47 @@
 2026-01-16 18:21:01,934 - views.main_window - INFO - 成功加载30条数据
 2026-01-16 18:21:25,326 - views.main_window - INFO - 正在关闭应用...
 2026-01-16 18:21:25,342 - __main__ - INFO - 应用正常退出
+2026-01-16 20:10:46,566 - __main__ - INFO - 启动B站问号榜应用
+2026-01-16 20:10:47,483 - views.main_window - INFO - 开始加载daily榜数据
+2026-01-16 20:11:05,362 - views.main_window - INFO - 成功加载30条数据
+2026-01-16 20:11:11,214 - views.main_window - INFO - 正在关闭应用...
+2026-01-16 20:11:11,228 - __main__ - INFO - 应用正常退出
+2026-01-16 20:14:34,577 - __main__ - INFO - 启动B站问号榜应用
+2026-01-16 20:14:35,395 - views.main_window - INFO - 开始加载daily榜数据
+2026-01-16 20:14:42,911 - views.main_window - INFO - 开始加载daily榜数据
+2026-01-16 20:14:44,550 - views.main_window - INFO - 切换到weekly榜
+2026-01-16 20:14:44,550 - views.main_window - INFO - 开始加载weekly榜数据
+2026-01-16 20:14:45,891 - views.main_window - ERROR - API错误: 网络请求失败: HTTPSConnectionPool(host='bili-qml.bydfk.com', port=443): Read timed out. (read timeout=10)
+2026-01-16 20:14:49,921 - views.main_window - INFO - 开始加载weekly榜数据
+2026-01-16 20:14:53,390 - views.main_window - ERROR - API错误: 网络请求失败: HTTPSConnectionPool(host='bili-qml.bydfk.com', port=443): Read timed out. (read timeout=10)
+2026-01-16 20:14:58,265 - views.main_window - INFO - 开始加载weekly榜数据
+2026-01-16 20:15:00,407 - views.main_window - ERROR - API错误: 网络请求失败: HTTPSConnectionPool(host='bili-qml.bydfk.com', port=443): Read timed out. (read timeout=10)
+2026-01-16 20:15:03,244 - views.main_window - INFO - 成功加载30条数据
+2026-01-16 20:15:04,615 - views.main_window - INFO - 正在关闭应用...
+2026-01-16 20:15:04,626 - __main__ - INFO - 应用正常退出
+2026-01-16 20:15:13,485 - __main__ - INFO - 启动B站问号榜应用
+2026-01-16 20:15:14,336 - views.main_window - INFO - 开始加载daily榜数据
+2026-01-16 20:15:23,845 - views.main_window - INFO - 正在关闭应用...
+2026-01-16 20:15:23,845 - __main__ - INFO - 应用正常退出
+2026-01-16 20:15:35,343 - __main__ - INFO - 启动B站问号榜应用
+2026-01-16 20:15:36,167 - views.main_window - INFO - 开始加载daily榜数据
+2026-01-16 20:15:46,661 - views.main_window - ERROR - API错误: 网络请求失败: HTTPSConnectionPool(host='bili-qml.bydfk.com', port=443): Read timed out. (read timeout=10)
+2026-01-16 20:16:50,347 - views.main_window - INFO - 开始加载daily榜数据
+2026-01-16 20:17:00,896 - views.main_window - ERROR - API错误: 网络请求失败: HTTPSConnectionPool(host='bili-qml.bydfk.com', port=443): Read timed out. (read timeout=10)
+2026-01-16 20:17:07,938 - views.main_window - INFO - 正在关闭应用...
+2026-01-16 20:17:07,938 - __main__ - INFO - 应用正常退出
+2026-01-16 20:18:45,294 - __main__ - INFO - 启动B站问号榜应用
+2026-01-16 20:18:46,098 - my_pyqt_app.views.main_window - INFO - 开始加载daily榜数据
+2026-01-16 20:18:56,584 - my_pyqt_app.views.main_window - ERROR - API错误: 网络请求失败: HTTPSConnectionPool(host='bili-qml.bydfk.com', port=443): Read timed out. (read timeout=10)
+2026-01-16 20:19:49,807 - my_pyqt_app.views.main_window - INFO - 正在关闭应用...
+2026-01-16 20:19:49,824 - __main__ - INFO - 应用正常退出
+2026-01-16 20:20:28,411 - __main__ - INFO - 启动B站问号榜应用
+2026-01-16 20:20:29,235 - my_pyqt_app.views.main_window - INFO - 开始加载daily榜数据
+2026-01-16 20:20:46,109 - my_pyqt_app.views.main_window - INFO - 成功加载30条数据
+2026-01-16 20:20:51,470 - my_pyqt_app.views.main_window - INFO - 正在关闭应用...
+2026-01-16 20:20:51,486 - __main__ - INFO - 应用正常退出
+2026-01-16 20:24:46,764 - __main__ - INFO - 启动B站问号榜应用
+2026-01-16 20:24:47,585 - my_pyqt_app.views.main_window - INFO - 开始加载daily榜数据
+2026-01-16 20:24:58,085 - my_pyqt_app.views.main_window - ERROR - API错误: 网络请求失败: HTTPSConnectionPool(host='bili-qml.bydfk.com', port=443): Read timed out. (read timeout=10)
+2026-01-16 20:25:01,835 - my_pyqt_app.views.main_window - INFO - 正在关闭应用...
+2026-01-16 20:25:01,835 - __main__ - INFO - 应用正常退出
