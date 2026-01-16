@@ -60,7 +60,7 @@ class BilibiliAPIManager(QThread):
                     
                     for i, item in enumerate(rank_list):
                         bvid = item['bvid']
-                        title = item.get('title', '未知标题')
+                        title_from_api = item.get('title', '')
                         
                         # 获取视频详情
                         try:
@@ -74,9 +74,11 @@ class BilibiliAPIManager(QThread):
                                 detail_data = detail_response.json()
                                 if detail_data.get('code') == 0:
                                     video_data = detail_data['data']
+                                    # 优先使用B站API的标题，如果失败则使用排行榜API的标题
+                                    final_title = video_data.get('title', title_from_api if title_from_api else '未知标题')
                                     rank_info = {
                                         'rank': i + 1,
-                                        'title': title,
+                                        'title': final_title,
                                         'up': video_data['owner']['name'],
                                         'play': self.format_number(video_data['stat']['view']),
                                         'danmaku': self.format_number(video_data['stat']['danmaku']),
@@ -86,7 +88,7 @@ class BilibiliAPIManager(QThread):
                                 else:
                                     rank_info = {
                                         'rank': i + 1,
-                                        'title': title,
+                                        'title': title_from_api if title_from_api else '未知标题',
                                         'up': '未知',
                                         'play': '0',
                                         'danmaku': '0',
@@ -96,7 +98,7 @@ class BilibiliAPIManager(QThread):
                             else:
                                 rank_info = {
                                     'rank': i + 1,
-                                    'title': title,
+                                    'title': title_from_api if title_from_api else '未知标题',
                                     'up': '未知',
                                     'play': '0',
                                     'danmaku': '0',
@@ -106,7 +108,7 @@ class BilibiliAPIManager(QThread):
                         except Exception as e:
                             rank_info = {
                                 'rank': i + 1,
-                                'title': title,
+                                'title': title_from_api if title_from_api else '未知标题',
                                 'up': '未知',
                                 'play': '0',
                                 'danmaku': '0',
