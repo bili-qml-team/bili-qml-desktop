@@ -35,7 +35,7 @@ def main():
         # 创建应用实例
         app = QApplication(sys.argv)
         app.setApplicationName("B站问号榜")
-        app.setApplicationVersion("1.0.0")
+        app.setApplicationVersion("1.0.1")
         
         # 创建主窗口
         logger.info("启动B站问号榜应用")

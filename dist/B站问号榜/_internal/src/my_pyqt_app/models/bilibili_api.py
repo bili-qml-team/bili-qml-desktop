@@ -1,6 +1,8 @@
 import requests
 import random
 from PyQt6.QtCore import QThread, pyqtSignal
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 class BilibiliAPIManager(QThread):
     """B站API数据获取线程"""
@@ -12,12 +14,22 @@ class BilibiliAPIManager(QThread):
         super().__init__()
         self.rank_type = rank_type
         self.api_urls = {
-            # "realtime": "https://bili-qml.bydfk.com/api/leaderboard?range=realtime&type=1",
             "daily": "https://bili-qml.bydfk.com/api/leaderboard?range=daily&type=1",
             "weekly": "https://bili-qml.bydfk.com/api/leaderboard?range=weekly&type=1",
             "monthly": "https://bili-qml.bydfk.com/api/leaderboard?range=monthly&type=1"
         }
         
+        # 初始化session并配置重试策略
+        self.session = requests.Session()
+        retry_strategy = Retry(
+            total=3,
+            backoff_factor=5,
+            status_forcelist=[429, 500, 502, 503, 504],
+        )
+        adapter = HTTPAdapter(max_retries=retry_strategy)
+        self.session.mount("http://", adapter)
+        self.session.mount("https://", adapter)
+
     def get_headers(self):
         """获取随机User-Agent头部信息"""
         user_agents = [
@@ -30,19 +42,19 @@ class BilibiliAPIManager(QThread):
             'Referer': 'https://www.bilibili.com/',
             'Origin': 'https://www.bilibili.com'
         }
-    
+
     def format_number(self, num):
         """格式化数字显示"""
         if num >= 10000:
             return f"{num/10000:.1f}万"
         return str(num)
-    
+
     def run(self):
         try:
             self.progress_updated.emit(10)
             
             # 发送API请求到自定义后端
-            response = requests.get(
+            response = self.session.get(
                 self.api_urls[self.rank_type], 
                 headers=self.get_headers(),
                 timeout=10
@@ -64,7 +76,7 @@ class BilibiliAPIManager(QThread):
                         
                         # 获取视频详情
                         try:
-                            detail_response = requests.get(
+                            detail_response = self.session.get(
                                 f"https://api.bilibili.com/x/web-interface/view?bvid={bvid}",
                                 headers=self.get_headers(),
                                 timeout=10
@@ -74,7 +86,6 @@ class BilibiliAPIManager(QThread):
                                 detail_data = detail_response.json()
                                 if detail_data.get('code') == 0:
                                     video_data = detail_data['data']
-                                    # 优先使用B站API的标题，如果失败则使用排行榜API的标题
                                     final_title = video_data.get('title', title_from_api if title_from_api else '未知标题')
                                     rank_info = {
                                         'rank': i + 1,
@@ -127,7 +138,7 @@ class BilibiliAPIManager(QThread):
                 self.error_occurred.emit(f"HTTP错误: {response.status_code}")
                 
         except Exception as e:
-            self.error_occurred.emit(f"网络请求失败: {str(e)}")
+            self.error_occurred.emit(f"网络请求失败: 连接网络中，如果多次失败请手动关闭并重启")
         finally:
             self.progress_updated.emit(100)
     
