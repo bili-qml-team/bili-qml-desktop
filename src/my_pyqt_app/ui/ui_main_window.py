@@ -147,6 +147,7 @@ class Ui_BilibiliRankWindow(object):
 "}\n"
 "QTableWidget::item:selected {\n"
 "    background-color: #e6f7ff;\n"
+"    color: #333333;  // 添加此行以保持文字颜色不变\n"
 "}\n"
 "QHeaderView::section {\n"
 "    background-color: #f8f9fa;\n"

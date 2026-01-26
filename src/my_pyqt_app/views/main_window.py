@@ -73,10 +73,6 @@ class MainWindow(QMainWindow):
         # 更新按钮样式
         self.update_tab_style(rank_type)
         
-        # 更新标题
-        rank_names = {"daily": "日榜", "weekly": "周榜", "monthly": "月榜", "realtime": "实时榜"}
-        self.ui.titleLabel.setText(f"B站{rank_names[rank_type]}问号榜")
-        
         # 加载数据
         self.load_rank_data()
         
@@ -233,7 +229,7 @@ class MainWindow(QMainWindow):
         self.logger.error(f"API错误: {error_msg}")
         
         # 显示错误对话框
-        QMessageBox.warning(self, "数据加载失败", error_msg)
+        QMessageBox.warning(self, "数据加载失败", "发生错误：连接网络中，如果多次失败请手动关闭并重启")
     
     def auto_refresh(self):
         """自动刷新数据"""
